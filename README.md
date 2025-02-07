@@ -6,7 +6,7 @@ This project establishes a hierarchical agent-based system where Director, Manag
 # Agent Hierarchy & Responsibilities
 The agent hierarchy follows a structured delegation model where tasks flow downward, and results propagate upward.
 
-1) Director Agent
+## Director Agent
 - Role:
   - Acts as the top-level orchestrator, responsible for defining the overarching goal and breaking it down into actionable tasks.
 - Responsibilities:
@@ -16,10 +16,10 @@ The agent hierarchy follows a structured delegation model where tasks flow downw
   - Utilizes the Ollama server to assist with task definition, evaluation, and decision-making.
   - Ensures that the goal is met efficiently, balancing execution speed and accuracy.
   - Produces actionable conclusions and a final investment report summarizing the insights.
-2) Manager Agents
+## Manager Agents
 - Role:
   - Middle-layer coordinator that refines Director Agent’s tasks into detailed subtasks and delegates them to Individual Agents.
-3) Responsibilities:
+- Responsibilities:
   - Receives tasks from the Director Agent.
   - Translates tasks into subtasks using AI-assisted breakdown.
   - Classifies each subtask as either:
@@ -28,7 +28,7 @@ The agent hierarchy follows a structured delegation model where tasks flow downw
   - Assigns programmatic tasks to the OS Agent and general tasks to Individual Agents.
   - Ensures that subtasks are completed successfully, meeting predefined quality benchmarks.
   - Validates the results and reports structured feedback to the Director Agent.
-4) Individual Agents
+## Individual Agents
 - Role:
   - Executes general (non-programmatic) tasks assigned by Manager Agents.
 - Responsibilities:
@@ -37,7 +37,7 @@ The agent hierarchy follows a structured delegation model where tasks flow downw
   - Ensures task quality through validation and verification.
   - Reports task status, results, and remarks back to the Manager Agent.
   - Handles data processing, research, and logical analysis tasks.
-OS Agent (Specialized Individual Agent)
+## OS Agent (Specialized Individual Agent)
 - Role:
   - Executes programmatic (code execution) tasks assigned by Manager Agents.
 - Responsibilities:
@@ -60,18 +60,20 @@ OS Agent (Specialized Individual Agent)
 - This framework intend to ensures scalability, efficiency, and accuracy in automated, goal-oriented problem-solving.
 
 # Prerequisites
-Ollama should be installed and running
+Ollama should be installed and running (https://github.com/ollama/ollama).
 Pull a model to use with the library: ollama pull <model> e.g. ollama pull llama3.2
 See Ollama.com for more information on the models available.
 
-# Install
->pip install ollama
+# Implementation
 
-# Download LLM model e.g. llama3.3
->ollama pull llama3.3
+## Install
+`pip install ollama`
 
-# Start Ollama server
->ollama serve
+## Download LLM model e.g. llama3.3
+`ollama pull llama3.3`
 
-# Execute
->python ollama_combo_a2.py
+## Start Ollama server
+`ollama serve`
+
+## Execute
+`python ollama_combo_a2.py`
