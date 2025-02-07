@@ -48,6 +48,36 @@ The agent hierarchy follows a structured delegation model where tasks flow downw
   - Handles automation, scripting, and system-level operations.
   - Returns structured execution feedback to the Manager Agent.
 
+# Use Case Example
+For an investment strategy development, the Director Agent sets the goal to identify stocks for a 7-8% annual return with minimized risk. The Manager Agents break this down into subtasks such as market research, trend analysis, and risk assessment. The Individual - Agents research stocks, analyze risk factors, and generate reports. The OS Agent retrieves financial data using automation. The Director Agent consolidates results and generates an investment recommendation report.
+## Investment Strategy Development
+Goal: Develop an investment strategy yielding 7-8% annual return while minimizing risk.
+### Director Agent:
+- Breaks down the high-level goal into tasks:
+- Analyze past investment trends.
+- Identify low-risk stocks.
+- Simulate portfolio performance.
+- Assigns tasks to Manager Agents.
+### Manager Agent:
+- Further breaks down tasks into subtasks:
+- Research economic indicators.
+- Compare risk-adjusted returns.
+- Identify three stock tickers per strategy.
+- Assigns analytical subtasks to Individual Agents and programmatic stock simulations to OS Agents.
+### Individual Agents & OS Agent:
+- Individual Agents analyze stock performance, extract insights, and compile recommendations.
+- OS Agent runs Python-based financial models to simulate investment performance.
+### Manager Agent:
+- Collects findings, validates data, and ensures results meet required quality standards.
+- Reports structured insights to the Director Agent.
+### Director Agent:
+- Synthesizes key findings into an executive summary.
+- Generates data-driven investment recommendations.
+- Produces a final report with actionable insights.
+# Conclusion
+This multi-layered agent system provides a scalable, AI-driven framework for complex problem-solving. By leveraging LLM-powered task breakdown, classification, and automation, the system ensures efficient task execution across different levels of expertise. It is adaptable for diverse applications, such as financial analysis, strategic planning, and operations management.
+
+
 # Technical Implementation
 - Python Framework: Implements agent classes, task delegation, and execution logic.
 - Ollama Server: Powers LLM-driven decision-making and task processing.
@@ -55,25 +85,19 @@ The agent hierarchy follows a structured delegation model where tasks flow downw
 - Hierarchical Task Delegation: Ensures structured workflow and efficient collaboration.
 - Task Classification & Optimization: Uses AI-based classification for intelligent workload distribution.
 
-# Use Case Example
-- For an investment strategy development, the Director Agent sets the goal to identify stocks for a 7-8% annual return with minimized risk. The Manager Agents break this down into subtasks such as market research, trend analysis, and risk assessment. The Individual - Agents research stocks, analyze risk factors, and generate reports. The OS Agent retrieves financial data using automation. The Director Agent consolidates results and generates an investment recommendation report.
-- This framework intend to ensures scalability, efficiency, and accuracy in automated, goal-oriented problem-solving.
-
-# Prerequisites
+## Prerequisites
 Ollama should be installed and running (https://github.com/ollama/ollama).
 Pull a model to use with the library: ollama pull <model> e.g. ollama pull llama3.2
 See Ollama.com for more information on the models available.
 
-# Implementation
-
-## Install
+## Implementation
+### Install
+`conda create ollama-env`
+'conda activate ollama-env'
 `pip install ollama`
-
-## Download LLM model e.g. llama3.3
+### Download LLM model e.g. llama3.3
 `ollama pull llama3.3`
-
-## Start Ollama server
+### Start Ollama server
 `ollama serve`
-
-## Execute
-`python ollama_combo_a2.py`
+### Execute
+`python combo_generic_a2.py`
