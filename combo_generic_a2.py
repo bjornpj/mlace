@@ -11,7 +11,6 @@ def log_message(agent_name, message, color, level="INFO"):
     """Utility function to log messages with a timestamp and hierarchical structure."""
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     print(f"{color}[{timestamp}] [{agent_name}] [{level}] {message}")
-#    print(f"{color}[{timestamp}] [{agent_name}] [{level}] {message}")
     
 # Base Agent class
 class Agent:
@@ -305,10 +304,6 @@ class ManagerAgent(Agent):
         self.individual_agents = individual_agents
         self.os_agent = os_agent  # Add this line to store the OSAgent reference
         self.llm_interface = llm_interface
-#    def __init__(self, name, individual_agents, llm_interface):
-#        super().__init__(name)
-#        self.individual_agents = individual_agents
-#        self.llm_interface = llm_interface
 
     def translate_task_to_subtasks(self, task):
         self.communicate(f"Translating task: {task}", level="INFO")
@@ -513,10 +508,7 @@ class DirectorAgent(Agent):
             response = self.llm_interface.query(prompt)
             raw_response = response["message"]["content"].strip()
             self.communicate(f"Raw response from LLM: {raw_response}", level="DEBUG")
-            ###################################################################################
            # Replace escaped newline characters and double newlines
-#            formatted_response = raw_response.replace("\\n", "\n").replace("\n\n", "").strip()
-#            formatted_response = raw_response.replace("\\n", "\n").strip()
             formatted_response = raw_response
             formatted_response = json.dumps({"recommendations": formatted_response})
 
@@ -525,10 +517,7 @@ class DirectorAgent(Agent):
 
             # Return the conclusions as provided by the LLM
             return f"### Recommendations Based on Findings:\n{formatted_response}"
-            ###################################################################################
 
-#           # Return the conclusions
-#            return raw_response
         except Exception as e:
             self.communicate(f"Error generating conclusions: {e}", level="ERROR")
             return "An error occurred while generating conclusions. Please check the findings and try again."
