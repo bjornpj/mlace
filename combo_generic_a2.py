@@ -476,45 +476,6 @@ class DirectorAgent(Agent):
             self.communicate(f"Error: Failed to translate goal. {e}", level="ERROR")
             return []
             
-    def translate_goal_to_tasks_old(self, goal):
-        self.communicate(f"Translating goal into tasks using LLM: {goal}", level="INFO")
-        prompt = f"""
-    You are a Director Agent responsible for breaking down the following high-level goal into actionable tasks for Manager Agents.
-
-    Goal: {goal}
-
-    Respond strictly as a JSON array of task descriptions. Do not include any additional text, explanations, or comments.
-
-    Example response:
-    [
-        "Task 1 description",
-        "Task 2 description",
-        "Task 3 description"
-    ]
-
-    If you cannot generate tasks, return an empty JSON array: [].
-    """
-        try:
-            # Call the LLM with the prompt
-            response = self.llm_interface.query(prompt)
-            raw_content = response["message"]["content"].strip()
-            self.communicate(f"Raw response from LLM: {raw_content}", level="DEBUG")
-
-            # Validate and parse response
-            try:
-                tasks = json.loads(raw_content)
-                if isinstance(tasks, list) and all(isinstance(task, str) for task in tasks):
-                    return tasks
-                else:
-                    self.communicate("Error: Invalid response format. Falling back to default tasks.", level="ERROR")
-                    return []
-            except json.JSONDecodeError:
-                self.communicate("Error: JSON decoding failed. Falling back to default tasks.", level="ERROR")
-                return []
-        except Exception as e:
-            self.communicate(f"Error: Failed to translate goal. {e}", level="ERROR")
-            return []
-            
     def generate_conclusions(self, goal, key_findings):
         """
         Generates actionable conclusions using an LLM based on task and results from summary findings.
@@ -677,21 +638,15 @@ class DirectorAgent(Agent):
         
 # Example usage
 if __name__ == "__main__":
-#    llm = OllamaInterface("deepseek-r1:1.5b")
     llm = OllamaInterface("llama3.2")
+#    llm = OllamaInterface("deepseek-r1:1.5b")
     individual_agents = [IndividualAgent(f"IndividualAgent-{i}", llm) for i in range(6)]
     os_agent = OSAgent("OSAgent", llm)
     manager_agents = [ManagerAgent(f"ManagerAgent-{i}", individual_agents, os_agent, llm) for i in range(3)]
-#    manager_agents = [ManagerAgent(f"ManagerAgent-{i}", individual_agents, llm) for i in range(3)]
     director = DirectorAgent("DirectorAgent", manager_agents, llm)
 
-#    goal = "Perform a SWOT analysis of Ericsson AB."
-#    goal = "Propose a plan on how to end the war in Ukraine."
-#    goal = "Identify and list two stock tickers to invest in by developing a investment strategy which yeild in 10%-15% returns at lowest possible risk."
     goal = "Develop a investment strategy which yeild in 10%-15% returns at lowest possible risk. For each recommendation provide up to 3 proposed tickers."
-#    goal = "Develop a investment strategy which yeild in 10%-15% returns at lowest possible risk."
-#    goal = "Optimize a stock portfolio for maximum returns in 2025."
-#    goal = "List all txt files in current directory in Python."
 #    goal = "Creat an action plan which reduces global warming with more than 2C."
 #    goal = "Display current date and time of local machine."
+#    goal = "List all txt files in current directory in Python."
     director.delegate_goal(goal)
