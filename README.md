@@ -93,7 +93,7 @@ See Ollama.com for more information on the models available.
 ## Implementation
 ### Install
 `conda create ollama-env`
-'conda activate ollama-env'
+`conda activate ollama-env`
 `pip install ollama`
 ### Download LLM model e.g. llama3.2
 `ollama pull llama3.3`
