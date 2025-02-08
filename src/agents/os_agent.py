@@ -1,4 +1,6 @@
 ## src/agents/os_agent.py
+import re
+import json  # Ensure this is imported
 import subprocess
 from src.agents.individual_agent import IndividualAgent
 

@@ -1,5 +1,6 @@
 ## src/utils/logger.py
 import datetime
+from colorama import Fore, Style
 
 def log_message(agent_name, message, color, level="INFO"):
     """Utility function to log messages with a timestamp and hierarchical structure."""

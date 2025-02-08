@@ -1,6 +1,7 @@
 ## src/interfaces/ollama_interface.py
 import ollama
 from src.interfaces.llm_interface import LLMInterface
+from colorama import Fore, Style
 
 class OllamaInterface(LLMInterface):
     def query(self, prompt):

@@ -1,4 +1,6 @@
 ## src/agents/base_agent.py
+import re
+import json
 import datetime
 from colorama import Fore, Style
 from src.utils.logger import log_message

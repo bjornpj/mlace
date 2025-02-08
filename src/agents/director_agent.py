@@ -1,4 +1,6 @@
 ## src/agents/director_agent.py
+import re
+import json  # Ensure this is imported
 from src.agents.base_agent import Agent
 
 # Director Agent class

@@ -1,4 +1,6 @@
 ## src/agents/individual_agent.py
+import re
+import json
 from src.agents.base_agent import Agent
 
 # Individual Agent class

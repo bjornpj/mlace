@@ -1,4 +1,7 @@
 ## src/agents/manager_agent.py
+import re
+import json  # Ensure this is imported
+import random
 from src.agents.base_agent import Agent
 from random import choice
 
