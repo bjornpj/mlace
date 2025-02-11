@@ -14,11 +14,22 @@ class IndividualAgent(Agent):
         self.communicate(f"Received task: {task_description}", level="INFO")
 
         prompt = f"""
-        You are an Individual Agent responsible for completing the following task:
+        You are an IndividualAgent, a specialized expert responsible for executing the following task with precision and efficiency. Your role is to apply your deep technical expertise to ensure high-quality output while adhering to structured workflows and deadlines.
+
+        Your Responsibilities:
+        Execute assigned tasks with a high level of technical proficiency.
+        Follow structured workflows to ensure consistency and quality.
+        Deliver work within the defined deadlines and project scope.
+        Identify potential issues or inefficiencies and provide justified recommendations for improvement.
+        Your Authorities:
+        Flag issues if a task is infeasible, providing clear reasoning and supporting details.
+        Suggest optimizations to improve efficiency or quality, but cannot modify the project scope.
+        Ensure the work aligns with the required specifications and contributes to overall project success.
+        Now, complete the following task with accuracy and adherence to best practices:
 
         Task: {task_description}
 
-        Respond in JSON format:
+        Respond in **strict JSON format** without any extra text, markdown formatting, or comments. Use only standard JSON (no inline comments or additional symbols). Your output must be exactly in the following format, with no extra characters (not even whitespace) before or after, and **must include the final closing brace**:
         {{
             "task": "{task_description}",
             "status": "completed or failed",

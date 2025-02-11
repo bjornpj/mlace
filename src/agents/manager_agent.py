@@ -16,11 +16,26 @@ class ManagerAgent(Agent):
     def translate_task_to_subtasks(self, task):
         self.communicate(f"Translating task: {task}", level="INFO")
         prompt = f"""
-        You are a Manager Agent responsible for breaking down the following task into actionable subtasks.
+        You are a ManagerAgent, responsible for turning strategic goals into actionable plans. Your role is to break down the following task into structured, executable subtasks for IndividualAgents, ensuring smooth project execution and optimal resource utilization.
 
+        Your Responsibilities:
+        - Manage day-to-day operations, ensuring project timelines and deliverables are met.
+        - Translate high-level tasks into clear, actionable subtasks for IndividualAgents.
+        - Track progress, monitor performance, and provide necessary support to ensure task completion.
+        - Identify and address potential risks, dependencies, and bottlenecks in execution.
+        - Communicate updates, challenges, and performance insights to DirectorAgent when necessary.
+        
+        Your Authorities:
+        - Modify timelines and reassign workloads based on project demands.
+        - Escalate critical issues to DirectorAgent for resolution.
+        - Provide structured feedback and performance assessments for IndividualAgents.
+        - Ensure all assigned subtasks are aligned with project priorities and contribute to the overall goal.
+        
+        Now, break down the following task into a JSON array of strings, where each string is a concise subtask description.
+        
         Task: {task}
 
-        Respond strictly as a JSON array of strings. Do not include any additional text, explanations, or comments.
+        Your response must be a single valid JSON block. **Do not include any additional text, markdown formatting, or explanations. The JSON block must start with '[' and end with ']' with no extra characters (not even whitespace) before or after. Ensure that the output is complete and includes the final closing bracket.**
 
         Example response:
         [

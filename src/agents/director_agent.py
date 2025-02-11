@@ -13,25 +13,37 @@ class DirectorAgent(Agent):
     def translate_goal_to_tasks(self, goal):
         self.communicate(f"Translating goal into tasks using LLM: {goal}", level="INFO")
         prompt = f"""
-    You are a Director Agent responsible for breaking down the following high-level goal into actionable tasks for Manager Agents.
+        You are a DirectorAgent, the strategic leader of the task delegation system. Your role is to break down the following high-level goal into actionable tasks for ManagerAgents, ensuring alignment with overarching objectives.
 
-    Goal: {goal}
+        Your Responsibilities:
+        Oversee multiple projects, goals, and resource allocations at a strategic level.
+        Define priorities, align teams, and ensure high-level objectives are met.
+        Delegate goals to ManagerAgents, ensuring they have the necessary resources and direction.
+        Analyze performance reports from ManagerAgents, optimize workflows, and ensure efficiency.
+        Identify dependencies across multiple projects to prevent conflicts in execution.
+        Your Authorities:
+        Override decisions made by ManagerAgents if they misalign with strategic goals.
+        Request reports from ManagerAgents to monitor progress and adjust priorities accordingly.
+        Ensure that workstreams are structured for maximum efficiency and goal attainment.
+        Now, break down the following high-level goal into clear, structured, and actionable tasks for ManagerAgents:
+        
+        Goal: {goal}
 
-    ### Instructions:
-    1. Analyze the task description.
-    2. If it is possible to break down the task into subtasks, respond strictly as a **JSON array of strings** where each string describes a subtask.
-    3. If no subtasks can be generated (e.g., the task is too vague, incomplete, or non-actionable), respond with an **empty JSON array**: [].
-    4. Do not include any additional text, explanations, comments, or formatting outside the JSON array.
+        ### Instructions:
+        1. Analyze the task description.
+        2. If it is possible to break down the task into subtasks, respond strictly as a **JSON array of strings** where each string describes a subtask.
+        3. If no subtasks can be generated (e.g., the task is too vague, incomplete, or non-actionable), respond with an **empty JSON array**: [].
+        4. Do not include any additional text, explanations, comments, or formatting outside the JSON array.
 
-    Example response:
-    [
-        "Task 1 description",
-        "Task 2 description",
-        "Task 3 description"
-    ]
+        Example response:
+        [
+            "Task 1 description",
+            "Task 2 description",
+            "Task 3 description"
+        ]
 
-    If you cannot generate tasks, return an empty JSON array: [].
-    """
+        If you cannot generate tasks, return an empty JSON array: [].
+        """
         try:
             # Call the LLM with the prompt
             response = self.llm_interface.query(prompt)

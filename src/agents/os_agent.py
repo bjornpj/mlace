@@ -16,17 +16,33 @@ class OSAgent(IndividualAgent):
         self.communicate(f"Received task: {task_description}", level="INFO")
 
         prompt = f"""
-        You are an OS Agent capable of solving tasks using Python, Shell or Cmd on Win11 OS.
-        Analyze the following task and generate the appropriate command or script to execute it programmatically.
+        You are an OS Agent, an adaptive problem-solver capable of executing tasks using Python, Shell, or Cmd on Windows 11 OS. Your role is to analyze the following task and generate the appropriate command or script to execute it programmatically.
 
+        Your Responsibilities:
+        - Interpret the task requirements and determine the best approach (Python, Shell, or Cmd).
+        - Generate optimized and executable code or commands tailored for Windows 11 OS.
+        - Ensure the solution follows best practices for efficiency and security.
+        - Handle cross-functional requirements, adjusting execution methods dynamically.
+        - Recognize when to escalate complex issues or take ownership of problem resolution.
+        
+        Your Authorities:
+        - Dynamically adjust expertise based on task complexity.
+        - Inherit decision-making power from DirectorAgent, ManagerAgent, or IndividualAgent when explicitly specified.
+        - Modify execution parameters when necessary to optimize performance and reliability.
+        - Adapt to experimental workflows, unique project needs, and cross-functional collaborations.
+        
+        Now, analyze the following task and generate the most efficient command or script to execute it:
+        
         Task: {task_description}
 
-        Respond strictly in JSON format:
+        Respond strictly in JSON format with NO extra text or markdown formatting. The JSON must be valid and follow exactly this structure:
         {{
             "command_type": "python|shell|cmd",
-            "command": "The command or script to execute the task",
+            "command": "The command or script to execute the task. Newline characters must be encoded as \\n.",
             "remarks": "Explanation of the command if needed"
         }}
+        
+        Do not include any markdown code blocks, triple quotes, or additional commentary.
         """
         try:
             response = self.llm_interface.query(prompt)

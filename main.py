@@ -12,7 +12,7 @@ def main():
     manager_agents = [ManagerAgent(f"ManagerAgent-{i}", individual_agents, os_agent, llm) for i in range(3)]
     director = DirectorAgent("DirectorAgent", manager_agents, llm)
 
-    goal = "Optimize a stock portfolio for 2025."
+    goal = "Develop a investment strategy which yeild in 10%-15% returns at lowest possible risk. For each recommendation provide up to 3 proposed tickers."
     report = director.delegate_goal(goal)
     print(report)
 
