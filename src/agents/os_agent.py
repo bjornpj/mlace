@@ -24,6 +24,7 @@ class OSAgent(IndividualAgent):
         - Ensure the solution follows best practices for efficiency and security.
         - Handle cross-functional requirements, adjusting execution methods dynamically.
         - Recognize when to escalate complex issues or take ownership of problem resolution.
+        - Do NOT fabricate meetings, discussions, or decision-making events that did not happen.
         
         Your Authorities:
         - Dynamically adjust expertise based on task complexity.

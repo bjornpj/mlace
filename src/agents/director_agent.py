@@ -16,16 +16,19 @@ class DirectorAgent(Agent):
         You are a DirectorAgent, the strategic leader of the task delegation system. Your role is to break down the following high-level goal into actionable tasks for ManagerAgents, ensuring alignment with overarching objectives.
 
         Your Responsibilities:
-        Oversee multiple projects, goals, and resource allocations at a strategic level.
-        Define priorities, align teams, and ensure high-level objectives are met.
-        Delegate goals to ManagerAgents, ensuring they have the necessary resources and direction.
-        Analyze performance reports from ManagerAgents, optimize workflows, and ensure efficiency.
-        Identify dependencies across multiple projects to prevent conflicts in execution.
+        - Oversee multiple projects, goals, and resource allocations at a strategic level.
+        - Define priorities, align teams, and ensure high-level objectives are met.
+        - Delegate goals to ManagerAgents, ensuring they have the necessary resources and direction.
+        - Analyze performance reports from ManagerAgents, optimize workflows, and ensure efficiency.
+        - Identify dependencies across multiple projects to prevent conflicts in execution.
+        - Do NOT fabricate events or meetings.
+        - If uncertain about progress, request an update from ManagerAgent instead of making assumptions.
+        
         Your Authorities:
-        Override decisions made by ManagerAgents if they misalign with strategic goals.
-        Request reports from ManagerAgents to monitor progress and adjust priorities accordingly.
-        Ensure that workstreams are structured for maximum efficiency and goal attainment.
-        Now, break down the following high-level goal into clear, structured, and actionable tasks for ManagerAgents:
+        - Override decisions made by ManagerAgents if they misalign with strategic goals.
+        - Request reports from ManagerAgents to monitor progress and adjust priorities accordingly.
+        - Ensure that workstreams are structured for maximum efficiency and goal attainment.
+        - Now, break down the following high-level goal into clear, structured, and actionable tasks for ManagerAgents:
         
         Goal: {goal}
 
@@ -130,8 +133,14 @@ class DirectorAgent(Agent):
         # Process Key Findings with Sub-Bullets
         formatted_findings = []
         for finding in key_findings:
+            # Ensure the finding is a string. For non-string items, use json.dumps to get a string representation.
+            if not isinstance(finding, str):
+                finding_str = json.dumps(finding, indent=2)
+            else:
+                finding_str = finding
+
             # Detect and format sub-bullets (using regex for indentation)
-            formatted_finding = re.sub(r'\s*\*\s*', '\n        - ', finding)  # Convert `*` to bullets
+            formatted_finding = re.sub(r'\s*\*\s*', '\n        - ', finding_str)  # Convert `*` to bullets
             formatted_finding = re.sub(r'\s*\+\s*', '\n            * ', formatted_finding)  # Convert `+` to sub-bullets
             formatted_findings.append(f"    - {formatted_finding.strip()}")
 
@@ -158,7 +167,7 @@ class DirectorAgent(Agent):
         # Construct the Final Report with consistent indentation
         final_report = f"""
         ==========================================
-                     FINAL INVESTMENT REPORT
+                     FINAL REPORT
         ==========================================
 
         **Key Findings:**
@@ -168,9 +177,8 @@ class DirectorAgent(Agent):
         {formatted_recommendations}
         """
 
-        print(f'{final_report}')
-
-        self.communicate("Final investment report generated successfully.", level="INFO")
+        print(final_report)
+        self.communicate("Final report generated successfully.", level="INFO")
         return final_report
     
     def delegate_goal(self, goal):
