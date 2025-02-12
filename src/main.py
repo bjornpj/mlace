@@ -12,7 +12,8 @@ def main():
     manager_agents = [ManagerAgent(f"ManagerAgent-{i}", individual_agents, os_agent, llm) for i in range(3)]
     director = DirectorAgent("DirectorAgent", manager_agents, llm)
 
-    goal = "To optimize hospital bed turnover by reducing the time between patient discharge and bed re-occupancy by 80%."
+#    goal = "To optimize hospital bed turnover by reducing the time between patient discharge and bed re-occupancy by 80%."
+    goal = "Develop a best in class investment strategy yeilding 6%-8% annual returns at lowest possible risk. Recommend up to four tickers for each strategy with percentage allocation."
 #    goal = "Develop a best in class investment strategy yeilding 10%-15% annual returns at lowest possible risk. Recommend up to four tickers for each strategy with percentage allocation."
     report = director.delegate_goal(goal)
     print(report)
