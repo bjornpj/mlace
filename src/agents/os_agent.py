@@ -2,6 +2,7 @@
 import re
 import json  # Ensure this is imported
 import subprocess
+import sys, io
 from src.agents.individual_agent import IndividualAgent
 
 class OSAgent(IndividualAgent):
