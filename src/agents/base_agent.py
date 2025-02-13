@@ -28,8 +28,61 @@ class Agent:
 
         # Format the message
         log_message(self.name, f"[{self.name}] [{level.upper()}] {message}", color, level)
-        
+
     def sanitize_response(self, raw_response):
+        """
+        Extracts and validates the first valid JSON block from the raw LLM response.
+        Fixes minor errors and restructures JSON if necessary.
+        """
+
+        if not isinstance(raw_response, str):
+            self.communicate("Raw response is not a string.", level="ERROR")
+            return None
+
+        raw_response = raw_response.strip()
+
+        # Remove potential Markdown JSON code blocks
+        raw_response = re.sub(r"```json\n(.*?)\n```", r"\1", raw_response, flags=re.DOTALL).strip()
+
+        # Attempt to locate the first valid JSON block
+        json_match = re.search(r"(\{.*\}|\[.*\])", raw_response, re.DOTALL)
+        if not json_match:
+            self.communicate("No valid JSON block found in the response.", level="ERROR")
+            return None
+
+        json_content = json_match.group(0)
+
+        # Remove trailing commas before closing brackets
+        json_content = re.sub(r",\s*}", "}", json_content)
+        json_content = re.sub(r",\s*]", "]", json_content)
+
+        try:
+            parsed_json = json.loads(json_content)
+
+            # Detect and restructure multiple "result" fields
+            if isinstance(parsed_json, dict):
+                results = []
+                keys_to_remove = []
+                
+                for key, value in parsed_json.items():
+                    if key == "result":
+                        results.append(value)
+                        keys_to_remove.append(key)
+
+                # If multiple "result" keys were found, consolidate them
+                if len(results) > 1:
+                    parsed_json["results"] = results
+                    for key in keys_to_remove:
+                        del parsed_json[key]
+
+            return parsed_json
+
+        except json.JSONDecodeError as e:
+            self.communicate(f"JSON parsing failed: {e}", level="ERROR")
+            return None
+
+        
+    def sanitize_response_old(self, raw_response):
         """
         Extracts and validates the first valid JSON block from the raw LLM response.
         Handles multi-line and nested JSON responses, fixes minor errors, and removes non-JSON text.

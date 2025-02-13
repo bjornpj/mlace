@@ -16,7 +16,7 @@ def main():
     goal = "Develop a best in class investment strategy yeilding 6%-8% annual returns at lowest possible risk. Recommend up to four tickers for each strategy with percentage allocation."
 #    goal = "Develop a best in class investment strategy yeilding 10%-15% annual returns at lowest possible risk. Recommend up to four tickers for each strategy with percentage allocation."
     report = director.delegate_goal(goal)
-    print(report)
+#    print(report)
 
 if __name__ == "__main__":
     main()
