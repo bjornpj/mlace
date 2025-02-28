@@ -252,6 +252,35 @@ class EvaluatorAgent(Agent):
         **Problem Statement:** {problem_statement}
         **Agent Response:** {agent_response}
 
+        Provide the evaluation in the following structured format:
+
+        **Evaluation**
+
+        *   **Accuracy:** X/10
+            Explanation of accuracy assessment.
+        *   **Completeness:** X/10
+            Explanation of completeness assessment.
+        *   **Improvements:**
+            *   Specific improvement 1
+            *   Specific improvement 2
+            *   Specific improvement 3
+        *   **Confidence Score:** X/10
+
+        Ensure that the Confidence Score is always provided in the format **X/10** for accurate parsing.
+        """
+        evaluation_output = self.interface.query(evaluation_prompt)
+        print(f"{Fore.YELLOW}[EvaluatorAgent] Evaluation for {agent_name}:\n{evaluation_output}{Style.RESET_ALL}")
+        return evaluation_output
+        
+class EvaluatorAgent_old(Agent):
+    def execute(self, agent_name, agent_response, problem_statement):
+        evaluation_prompt = f"""
+        You are an evaluation expert. Your task is to assess the response provided by {agent_name}
+        in relation to the original problem statement.
+
+        **Problem Statement:** {problem_statement}
+        **Agent Response:** {agent_response}
+
         Provide an evaluation covering:
         - **Accuracy**: Does the response align with the problem statement?
         - **Completeness**: Does it fully address the requirements?
@@ -282,7 +311,7 @@ def extract_agents(llm_response):
     print(f"{Fore.CYAN}[Dynamic Mapping] Extracted Agents: {found_list}{Style.RESET_ALL}")
     return found_list
 
-def get_dynamic_agent_mapping(problem_statement, domain="General"):
+def get_dynamic_agent_mapping_new(problem_statement, domain="General"):
     domain_exclusions = SETTINGS.get("domain_exclusions", {})
     exclusions = domain_exclusions.get(domain, [])
     
@@ -362,7 +391,7 @@ def get_dynamic_agent_mapping_old(problem_statement, domain="General"):
     print(f"{Fore.CYAN}[Dynamic Mapping] Agents recommended by LLM after filtering: {filtered_agent_list}{Style.RESET_ALL}")
     return filtered_agent_list
 
-def get_dynamic_agent_mapping_old(problem_statement, domain="General"):
+def get_dynamic_agent_mapping(problem_statement, domain="General"):
     domain_exclusions = SETTINGS.get("domain_exclusions", {})
     exclusions = domain_exclusions.get(domain, [])
     
@@ -427,8 +456,44 @@ class MultiAgentSystem:
                 new_prompt_template = f"{agent.prompt_template}\n\nRefined Problem Statement:\n{refined_problem}"
                 agent.prompt_template = new_prompt_template
                 print(f"{Fore.GREEN}✅ {agent_name} prompt adjusted.{Style.RESET_ALL}")
+                
+    @staticmethod
+    def extract_confidence_score(response_text):
+        try:
+            print(f"Raw evaluation output:\n{response_text}")  # Debugging output
 
-    def extract_confidence_score(self, evaluation_output):
+            # Updated regex to capture both whole numbers and decimals (e.g., 8/10, 8.5/10)
+            match = re.search(r'\*\*Confidence Score:\*\*\s*([0-9]+(?:\.[0-9]+)?)/10', response_text)
+
+            if match:
+                score = float(match.group(1)) * 10  # Convert 8.5/10 to 85
+                print(f"✅ Extracted confidence score: {score}")  # Debugging output
+                return score
+            else:
+                print(f"⚠️ Failed to extract confidence score. Defaulting to 50%.")  # Debugging alert
+
+        except Exception as e:
+            print(f"❌ Error extracting confidence score: {e}")
+
+        return 50  # Default fallback value
+
+    @staticmethod
+    def extract_confidence_score_old(response_text):
+        try:
+            print(f"Raw evaluation output:\n{response_text}")  # Debugging output
+            match = re.search(r'\*\*Confidence Score:\*\*\s*([0-9]+)/10', response_text)
+            if match:
+                score = int(match.group(1)) * 10  # Convert 8/10 to 80
+                print(f"Extracted confidence score: {score}")  # Debugging output
+                return score
+            else:
+                print(f"⚠️ Failed to extract confidence score. Defaulting to 50%.")  # Debugging alert
+        except Exception as e:
+            print(f"❌ Error extracting confidence score: {e}")
+        
+        return 50  # Default fallback value (incorrect in this case)        
+        
+    def extract_confidence_score_old(self, evaluation_output):
         try:
             match = re.search(r'Confidence\s*Score\s*[:\-]?\s*([0-9]+(?:\.[0-9]+)?)', evaluation_output, re.IGNORECASE)
             if match:
