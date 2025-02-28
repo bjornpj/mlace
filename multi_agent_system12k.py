@@ -499,9 +499,9 @@ class MultiAgentSystem:
 if __name__ == "__main__":
     problem = (
     "Develop an portfolio investment strategy yielding 8-10% annual return with minimal risk exposure."
-    "* Current age: 60"
-    "* Annual income: $125,000"
-    "* Net worth: $0.63M"
+    "* Current age: 35"
+    "* Annual income: $98,000"
+    "* Net worth: $0.13M"
     "* Investment goals:"
     "    + Long-term growth and wealth accumulation"
     "    + Regular income generation through dividends"
@@ -509,10 +509,7 @@ if __name__ == "__main__":
     "    + Conservative (avoiding high-risk investments)"
     "    + Willing to accept some market volatility in pursuit of long-term returns"
     )
-    # problem = "Drastically improve time from patient discharge to room availability at level 1 trauma center."
-    # problem = "Create a plan for Healthcare and Health Tech industries to treat each patient with frictionless experiences. Imagine no more paper forms, duplicate questions, remembering medications, understanding test results, or repeating symptoms to multiple specialists."
     domain = "Wealth Management"
-    # domain = "Healthcare"
     agent_system = MultiAgentSystem()
     final_solution = agent_system.run(problem, domain)
     print("\n===== Final Solution =====\n")
