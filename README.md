@@ -1,107 +1,170 @@
-# Multi-Layered Agent Collaboration Framework for Goal-Oriented Task Execution
+# MLACE v0.9b: Dynamic Multi-Agent Collaboration Framework
 
-# Project Overview
-This project establishes a hierarchical agent-based system where Director, Manager, and Individual Agents work together to solve complex goals. The system is implemented in Python and utilizes an Ollama server for AI-driven decision-making. The agents interact dynamically, executing tasks and reporting results through structured communication.
+Welcome to **MLACE v0.9b** – the next-generation, multi-layered agent collaboration framework that transforms how complex, goal-oriented tasks are tackled. This open-source initiative leverages dynamic agent mapping, iterative refinement, and real-time data integration to solve intricate problems with unprecedented flexibility and precision.
 
-# Agent Hierarchy & Responsibilities
-The agent hierarchy follows a structured delegation model where tasks flow downward, and results propagate upward.
+---
 
-## Director Agent
-- Role:
-  - Acts as the top-level orchestrator, responsible for defining the overarching goal and breaking it down into actionable tasks.
-- Responsibilities:
-  - Translates a high-level goal into structured tasks for Manager Agents.
-  - Delegates these tasks to Manager Agents for further breakdown and execution.
-  - Aggregates results from managers and generates a final synthesis report.
-  - Utilizes the Ollama server to assist with task definition, evaluation, and decision-making.
-  - Ensures that the goal is met efficiently, balancing execution speed and accuracy.
-  - Produces actionable conclusions and a final investment report summarizing the insights.
-## Manager Agents
-- Role:
-  - Middle-layer coordinator that refines Director Agent’s tasks into detailed subtasks and delegates them to Individual Agents.
-- Responsibilities:
-  - Receives tasks from the Director Agent.
-  - Translates tasks into subtasks using AI-assisted breakdown.
-  - Classifies each subtask as either:
-  - Programmatic: Requires execution (Python, Shell, or CMD commands).
-  - General: Requires research, analysis, or conceptual work.
-  - Assigns programmatic tasks to the OS Agent and general tasks to Individual Agents.
-  - Ensures that subtasks are completed successfully, meeting predefined quality benchmarks.
-  - Validates the results and reports structured feedback to the Director Agent.
-## Individual Agents
-- Role:
-  - Executes general (non-programmatic) tasks assigned by Manager Agents.
-- Responsibilities:
-  - Receives a subtask and executes it.
-  - Uses LLM-assisted reasoning to generate a response.
-  - Ensures task quality through validation and verification.
-  - Reports task status, results, and remarks back to the Manager Agent.
-  - Handles data processing, research, and logical analysis tasks.
-## OS Agent (Specialized Individual Agent)
-- Role:
-  - Executes programmatic (code execution) tasks assigned by Manager Agents.
-- Responsibilities:
-  - Receives a task requiring code execution.
-  - Uses the Ollama server to generate Python, Shell, or CMD scripts.
-  - Executes the command on the local system.
-  - Verifies and logs the execution results.
-  - Handles automation, scripting, and system-level operations.
-  - Returns structured execution feedback to the Manager Agent.
+## Table of Contents
 
-# Use Case Example
-For an investment strategy development, the Director Agent sets the goal to identify stocks for a 7-8% annual return with minimized risk. The Manager Agents break this down into subtasks such as market research, trend analysis, and risk assessment. The Individual - Agents research stocks, analyze risk factors, and generate reports. The OS Agent retrieves financial data using automation. The Director Agent consolidates results and generates an investment recommendation report.
-## Investment Strategy Development
-Goal: Develop an investment strategy yielding 7-8% annual return while minimizing risk.
-### Director Agent:
-- Breaks down the high-level goal into tasks:
-- Analyze past investment trends.
-- Identify low-risk stocks.
-- Simulate portfolio performance.
-- Assigns tasks to Manager Agents.
-### Manager Agent:
-- Further breaks down tasks into subtasks:
-- Research economic indicators.
-- Compare risk-adjusted returns.
-- Identify three stock tickers per strategy.
-- Assigns analytical subtasks to Individual Agents and programmatic stock simulations to OS Agents.
-### Individual Agents & OS Agent:
-- Individual Agents analyze stock performance, extract insights, and compile recommendations.
-- OS Agent runs Python-based financial models to simulate investment performance.
-### Manager Agent:
-- Collects findings, validates data, and ensures results meet required quality standards.
-- Reports structured insights to the Director Agent.
-### Director Agent:
-- Synthesizes key findings into an executive summary.
-- Generates data-driven investment recommendations.
-- Produces a final report with actionable insights.
-# Conclusion
-This multi-layered agent system provides a scalable, AI-driven framework for complex problem-solving. By leveraging LLM-powered task breakdown, classification, and automation, the system ensures efficient task execution across different levels of expertise. It is adaptable for diverse applications, such as financial analysis, strategic planning, and operations management.
+- [Introduction](#introduction)
+- [From Fixed Hierarchies to Dynamic Intelligence](#from-fixed-hierarchies-to-dynamic-intelligence)
+- [The New Agent Ecosystem](#the-new-agent-ecosystem)
+- [Real-World Application: Evolving Investment Strategies](#real-world-application-evolving-investment-strategies)
+- [Technical Underpinnings & Getting Started](#technical-underpinnings--getting-started)
+- [Why MLACE v0.9b?](#why-mlace-20)
+- [Join the MLACE v0.9b Revolution](#join-the-mlace-20-revolution)
+- [Conclusion](#conclusion)
 
+---
 
-# Technical Implementation
-- Python Framework: Implements agent classes, task delegation, and execution logic.
-- Ollama Server: Powers LLM-driven decision-making and task processing.
-- Agent Logging & Reporting: Uses structured message logging to track execution.
-- Hierarchical Task Delegation: Ensures structured workflow and efficient collaboration.
-- Task Classification & Optimization: Uses AI-based classification for intelligent workload distribution.
+## Introduction
 
-## Prerequisites
-Ollama should be installed and running (https://github.com/ollama/ollama).
-Pull a model to use with the library: ollama pull <model> e.g. ollama pull llama3.2
-See Ollama.com for more information on the models available.
+In today’s fast-evolving world, addressing complex challenges requires more than just a rigid hierarchy. **MLACE v0.9b** breaks away from traditional, fixed-agent structures by embracing a dynamic approach. This framework intelligently selects specialized agents based on the context of your problem, refines initial problem statements iteratively, and integrates real-time data to deliver actionable, data-driven solutions.
 
-## Implementation
-### Install
-`conda create mlace`
+---
 
-`conda activate mlace`
+## From Fixed Hierarchies to Dynamic Intelligence
 
-`pip install ollama`
-### Download LLM model e.g. llama3.2
-`ollama pull llama3.2`
-### Start Ollama server
-`ollama serve`
-### Execute
-`python combo_generic_a2.py` or 
-`python -m src.main` 
+The previous version of MLACE operated under a three-tiered structure where the **Director Agent** orchestrated tasks through **Manager Agents** to **Individual/OS Agents**. Although effective, this model was less adaptable to rapidly changing scenarios.
+
+**MLACE v0.9b** introduces:
+
+- **Dynamic Agent Mapping:**  
+  Agents are now chosen based on the problem’s context. For instance, if live market data is needed, specialized agents such as **ResearchAgentFinance** (if available) and **MacroeconomicAgent** can be dynamically activated.
+  
+- **Iterative Refinement & Feedback Loops:**  
+  The **PromptRefinerAgent** iteratively refines the problem statement until it meets a high confidence threshold. Together with the **EvaluatorAgent** and **ResponseCritiqueAgent**, the system continuously optimizes outputs.
+  
+- **Real-Time Data Integration:**  
+  Tools like `yfinance` are integrated to pull the most up-to-date market and economic data, ensuring analyses are current and actionable.
+  
+- **Robust Error Handling & Adaptive Learning:**  
+  Every component is built to learn from feedback and adapt, ensuring resilient performance even in unforeseen conditions.
+
+---
+
+## The New Agent Ecosystem
+
+MLACE v0.9b is driven by a suite of specialized agents configured via a dynamic JSON file—**agents_config12e.json**. This file allows you to easily customize agent roles and prompt templates without altering the core code.
+
+### Key Agents
+
+- **PromptRefinerAgent**  
+  **Role:** Problem Refinement Expert  
+  **Prompt Template:**  
+  ```
+  Refine the following problem statement to improve clarity, specificity, and completeness:
+
+  Original Problem Statement:
+  {problem}
+
+  Refined Problem Statement:
+  ```
+
+- **ResearchAgent**  
+  **Role:** General Research Analyst  
+  **Prompt Template:**  
+  ```
+  You are a research analyst. Your task is to gather, analyze, and synthesize actionable data and recommendations to support the following problem. In your analysis, provide specific recommendations, list potential mechanisms or solution vehicles (e.g., methodologies, tools, frameworks) that can be employed to address the problem, and propose risk mitigation strategies that can help achieve optimal outcomes.
+
+  Problem Statement:
+  {problem}
+
+  Context:
+  {context}
+  ```
+
+- **DirectorAgent**  
+  **Role:** Strategic Planner  
+  **Prompt Template:**  
+  ```
+  You are a strategic planner. Develop a structured, actionable roadmap to address the following problem. Your plan should include specific investment recommendations, detailed asset allocations, suggested investment instruments, and clear risk management steps to achieve the specified goals.
+
+  Problem Statement:
+  {problem}
+
+  Context:
+  {context}
+
+  Outline a detailed plan with phases, milestones, and stakeholder responsibilities.
+  ```
+
+---
+
+## Real-World Application: Evolving Investment Strategies
+
+Imagine you need to develop an investment strategy that yields an 8-10% annual return while minimizing risk. MLACE v0.9b approaches this challenge as follows:
+
+1. **Problem Refinement:**  
+   The **PromptRefinerAgent** takes the initial investment strategy challenge and iteratively refines it until it’s clear and actionable.
+
+2. **Dynamic Agent Mapping:**  
+   The **ResearchAgent** evaluates the refined problem statement and determines which specialized agents to activate. For instance, it might engage:
+   - **ResearchAgentFinance:** To pull real-time financial market data.
+   - **MacroeconomicAgent:** To analyze broader economic trends (if configured).
+
+3. **Collaborative Execution:**  
+   Strategic agents such as **DirectorAgent**, **SolutionArchitectAgent**, and **CommunicatorAgent** work together to synthesize insights, ensuring that the final recommendation is robust and comprehensive.
+
+4. **Quality Assurance:**  
+   Throughout the process, the **EvaluatorAgent** and **ResponseCritiqueAgent** monitor outputs and refine them until they meet the predefined quality threshold.
+
+5. **Final Synthesis:**  
+   The **DirectorAgent** compiles all refined insights into a detailed report featuring clear action steps, risk assessments, and strategic recommendations.
+
+---
+
+## Technical Underpinnings & Getting Started
+
+### Prerequisites and Setup
+
+1. **Prepare Your Environment:**  
+   ```bash
+   python -m venv mlace_env
+   source mlace_env/bin/activate  # On Windows: mlace_env\Scripts\activate
+   pip install -r requirements.txt
+   ```
+
+2. **Configure the Ollama Server:**  
+   ```bash
+   pip install ollama
+   ollama pull llama3.2
+   ollama serve
+   ```
+
+3. **Run MLACE v0.9b:**  
+   ```bash
+   python mlace.py
+   ```
+
+---
+
+## Why MLACE v0.9b?
+
+- **Flexible Dynamic Configuration**
+- **Continuous Improvement via Iterative Feedback**
+- **Real-Time Adaptability with Integrated Data Sources**
+
+---
+
+## Join the MLACE v0.9b Revolution
+
+MLACE v0.9b is more than just a framework—it’s a collaborative ecosystem. We invite developers, researchers, and AI enthusiasts to explore, contribute, and help shape the future of dynamic, multi-agent collaboration.
+
+- **Explore the Codebase:**  
+  Visit our [GitHub repository](https://github.com/yourusername/mlace2.0) to dive into the source code.
+
+- **Contribute Your Expertise:**  
+  Fork the repository, propose improvements, and help evolve the framework.
+
+- **Engage with the Community:**  
+  Join our discussions, share your experiences, and collaborate with like-minded professionals.
+
+---
+
+## Conclusion
+
+If you’re ready to be part of this exciting revolution, join us in advancing MLACE v0.9b. Contribute your ideas, collaborate with experts, and help us build a smarter, more adaptive future for problem-solving.
+
+Welcome to MLACE v0.9b—where dynamic collaboration transforms every challenge into an opportunity for innovation.
 
